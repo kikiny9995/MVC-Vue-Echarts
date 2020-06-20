@@ -1,0 +1,182 @@
+﻿<div>
+    <h4>長條 option.series.type='bar'</h4>
+    <div id="bar" style="width: 600px;height:400px;"></div>
+</div>
+<br />
+<div>
+    <h4>圓餅 option.series.type='pie'</h4>
+    <div id="pie" style="width: 600px;height:400px;"></div>
+</div>
+<br />
+<div>
+    <h4>線條 option.series.type='line'</h4>
+    <div id="line" style="width: 600px;height:400px;"></div>
+</div>
+<br />
+<div>
+    <h4>mix</h4>
+    <div id="mix" style="width: 600px;height:400px;"></div>
+</div>
+<script>
+    window.onload = function () {
+        //barChart();
+        //pieChart();
+        //lineChart();
+        //mixChart();
+    };
+
+    function barChart() {
+        var myChart = echarts.init(document.getElementById('bar'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'ECharts 入门示例'
+            },
+
+            tooltip: {},
+            legend: {
+                data: ['销量']
+            },
+            xAxis: {
+                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+    function pieChart() {
+        var myChart = echarts.init(document.getElementById('pie'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {},
+            legend: {
+                data: ['销量']
+            },
+            xAxis: {
+                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'pie',
+                data: [
+                    { name: 'A', value: 1212 },
+                    { name: 'B', value: 2323 },
+                    { name: 'C', value: 1919 }
+                ]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+    function lineChart() {
+        var myChart = echarts.init(document.getElementById('line'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: { text: 'Line Chart' },
+            tooltip: {},
+            toolbox: {
+                feature: {
+                    dataView: {},
+                    saveAsImage: {
+                        pixelRatio: 2
+                    },
+                    restore: {}
+                }
+            },
+            xAxis: {},
+            yAxis: {},
+            series: [{
+                type: 'line',
+                smooth: true,
+                data: [[12, 5], [24, 20], [36, 36], [48, 10], [60, 10], [72, 20]]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+    function mixChart() {
+        var myChart = echarts.init(document.getElementById('mix'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            legend: {},
+            tooltip: {
+                trigger: 'axis',
+                showContent: false
+            },
+            dataset: {
+                source: [
+                    ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
+                    ['Matcha Latte', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
+                    ['Milk Tea', 86.5, 92.1, 85.7, 83.1, 73.4, 55.1],
+                    ['Cheese Cocoa', 24.1, 67.2, 79.5, 86.4, 65.2, 82.5],
+                    ['Walnut Brownie', 55.2, 67.1, 69.2, 72.4, 53.9, 39.1]
+                ]
+            },
+            xAxis: { type: 'category' },
+            yAxis: { gridIndex: 0 },
+            grid: { top: '55%' },
+            series: [
+                { type: 'line', smooth: true, seriesLayoutBy: 'row' },
+                { type: 'line', smooth: true, seriesLayoutBy: 'row' },
+                { type: 'line', smooth: true, seriesLayoutBy: 'row' },
+                { type: 'line', smooth: true, seriesLayoutBy: 'row' },
+                {
+                    type: 'pie',
+                    id: 'pie',
+                    radius: '30%',
+                    center: ['50%', '25%'],
+                    label: {
+                        formatter: '{b}: {@@2012} ({d}%)'
+                    },
+                    encode: {
+                        itemName: 'product',
+                        value: '2012',
+                        tooltip: '2012'
+                    }
+                }
+            ]
+        };
+        myChart.on('updateAxisPointer', function (event) {
+            var xAxisInfo = event.axesInfo[0];
+            if (xAxisInfo) {
+                var dimension = xAxisInfo.value + 1;
+                myChart.setOption({
+                    series: {
+                        id: 'pie',
+                        label: {
+                            formatter: '{b}: {@@[' + dimension + ']} ({d}%)'
+                        },
+                        encode: {
+                            value: dimension,
+                            tooltip: dimension
+                        }
+                    }
+                });
+            }
+        });
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+</script>

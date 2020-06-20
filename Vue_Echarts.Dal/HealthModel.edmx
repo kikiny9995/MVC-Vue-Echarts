@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HealthModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Outpatient">
+          <Key>
+            <PropertyRef Name="OutpatientId" />
+          </Key>
+          <Property Name="OutpatientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="VisitDate" Type="date" Nullable="false" />
+          <Property Name="DiseaseCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="DiseaseName" Type="nvarchar(max)" />
+          <Property Name="OutpatientType" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="CreateUser" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifyDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifyUser" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="HealthModelStoreContainer">
+          <EntitySet Name="Outpatient" EntityType="Self.Outpatient" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HealthModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HealthEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Outpatients" EntityType="HealthModel.Outpatient" />
+        </EntityContainer>
+        <EntityType Name="Outpatient">
+          <Key>
+            <PropertyRef Name="OutpatientId" />
+          </Key>
+          <Property Name="OutpatientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VisitDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DiseaseCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DiseaseName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OutpatientType" Type="HealthModel.EOutpatient" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateUser" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifyDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifyUser" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EnumType Name="EOutpatient" a:ExternalTypeName="Model.EOutpatient" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HealthModelStoreContainer" CdmEntityContainer="HealthEntities">
+          <EntitySetMapping Name="Outpatients">
+            <EntityTypeMapping TypeName="HealthModel.Outpatient">
+              <MappingFragment StoreEntitySet="Outpatient">
+                <ScalarProperty Name="ModifyUser" ColumnName="ModifyUser" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OutpatientType" ColumnName="OutpatientType" />
+                <ScalarProperty Name="DiseaseName" ColumnName="DiseaseName" />
+                <ScalarProperty Name="DiseaseCode" ColumnName="DiseaseCode" />
+                <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+                <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+                <ScalarProperty Name="OutpatientId" ColumnName="OutpatientId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

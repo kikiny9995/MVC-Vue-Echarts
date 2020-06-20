@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+
+
+<div id="app" v-cloak>
+    <h2>{{title}}</h2>
+    <br />
+    <div>
+        <div id="common" style="width: 650px;height:400px;"></div>
+    </div>
+    <br />
+    @*@{
+            Html.RenderPartial("_PartialOtherCharts");
+        }*@
+</div>
+<script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+<script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.8.0/echarts.js"></script>
+<script src="~/Scripts/echart-default.js"></script>
+<script>
+    var getOutpatientPath = '@Url.Action("GetOutpatient", "Echarts")';
+    var app = new Vue({
+        el: '#app',
+        data: {
+            title: 'Vue Echarts',
+            outpatientChart: {},
+        },
+        methods: {
+            commonChart: function (option) {
+                var _self = this;
+                var myChart = echarts.init(document.getElementById('common'));
+                var colors = ['#3c763d', '#675bba'];//line color
+
+                //option 說明 https://echarts.apache.org/zh/option.html#grid
+                option.title.text = '門診分析';
+                option.color = ['#3c763d', '#675bba'];//line color
+                option.legend.data = ['中醫', '西醫'];
+                option.xAxis.data = _self.outpatientChart.Dates
+                option.series = [
+                    {
+                        name: "看中醫總數",
+                        type: 'line',
+                        data: _self.outpatientChart.ChineseMedicineCount,
+
+                    },
+                    {
+                        name: '看西醫總數',
+                        type: 'line',
+                        data: _self.outpatientChart.WesternMedicineCount
+                    }
+                ];
+
+                console.log(option);
+
+                myChart.setOption(option);
+            },
+            loadData: function () {
+                var _self = this;
+
+                axios
+                    .get(getOutpatientPath)
+                    .then(function (res) {
+                        var data = res.data;
+                       console.log(data);
+                        if (res.status === 200) {
+                            _self.outpatientChart = data;
+                        }
+
+                    })
+                    .catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    }).finally(function () {
+                        _self.commonChart(getOption());
+                    });
+
+            }
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                this.loadData();
+            });
+        }
+    })
+</script>
+
